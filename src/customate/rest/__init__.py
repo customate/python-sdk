@@ -42,13 +42,8 @@ class Client(object):
         self.secret = secret or environ.get('CUSTOMATE_SECRET_KEY')
         self.customate_version = version or environ.get('CUSTOMATE_VERSION')
         self.url = url or environ.get('CUSTOMATE_URL')
-        self.log = log or environ.get('CUSTOMATE_LOG')
+        self.log = log
 
-        if self.log:
-            if self.log == True or self.log == False:
-                pass
-            else:
-                raise APIError("Use True or False as CUSTOMATE_LOG")
 
         try:
             self.base_url = self.url

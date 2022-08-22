@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: customate-sdk
-Version: 0.0.1
+Version: 0.0.7
 Summary: Python software developer kit for Customates API
 Home-page: https://github.com/customate/python-sdk
 Author: Bobby Stearman
@@ -37,7 +37,7 @@ Python 3.10
 ## Installation
 Using pip:
 ```
-pip install customate
+pip install customate-sdk
 ```
 This automatically installs customate v1.0 (or later).
 
@@ -48,7 +48,7 @@ Add API credentials to your settings:
 CUSTOMATE_KEY = ***Your public key supplied by Customate***
 CUSTOMATE_SECRET_KEY = ***Your secret key supplied by Customate***
 CUSTOMATE_URL= ***API URL***
-
+CUSTOMATE_VERSION= ***API Version***
 ```
 ***
 ***
@@ -60,12 +60,14 @@ Create Customate client:
 CUSTOMATE_KEY = <CUSTOMATE_KEY>
 CUSTOMATE_SECRET_KEY = <CUSTOMATE_SECRET_KEY>
 CUSTOMATE_URL= <CUSTOMATE_URL>
+CUSTOMATE_VERSION= <CUSTOMATE_VERSION>
 
 from customate.rest import Client
 client = Client(
     api_key = CUSTOMATE_KEY,
     secret=CUSTOMATE_SECRET_KEY,
     url=CUSTOMATE_URL,
+    version=CUSTOMATE_VERSION
     )
 ```
 
@@ -75,9 +77,6 @@ Testing our client:
 ```
 status_response = client.status.get()
 print(status_response.status_code)
-```
-You should see the following:
-```
 ```
 ***
 ***

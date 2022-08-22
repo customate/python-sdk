@@ -33,7 +33,7 @@ Add API credentials to your settings:
 CUSTOMATE_KEY = ***Your public key supplied by Customate***
 CUSTOMATE_SECRET_KEY = ***Your secret key supplied by Customate***
 CUSTOMATE_URL= ***API URL***
-
+CUSTOMATE_VERSION= ***API Version***
 ```
 ***
 ***
@@ -45,12 +45,14 @@ Create Customate client:
 CUSTOMATE_KEY = <CUSTOMATE_KEY>
 CUSTOMATE_SECRET_KEY = <CUSTOMATE_SECRET_KEY>
 CUSTOMATE_URL= <CUSTOMATE_URL>
+CUSTOMATE_VERSION= <CUSTOMATE_VERSION>
 
 from customate.rest import Client
 client = Client(
     api_key = CUSTOMATE_KEY,
     secret=CUSTOMATE_SECRET_KEY,
     url=CUSTOMATE_URL,
+    version=CUSTOMATE_VERSION
     )
 ```
 
@@ -60,9 +62,6 @@ Testing our client:
 ```
 status_response = client.status.get()
 print(status_response.status_code)
-```
-You should see the following:
-```
 ```
 ***
 ***

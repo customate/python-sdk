@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 import customate
-from customate.six import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
