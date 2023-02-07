@@ -12,11 +12,11 @@ Read more by visiting our main [website](https://gocustomate.com/)
 ## Supported Python Versions
 This library supports the following Python implementations:
 
-Python 3.6
-Python 3.7
-Python 3.8
-Python 3.9
-Python 3.10
+* Python 3.6
+* Python 3.7
+* Python 3.8
+* Python 3.9
+* Python 3.10
 ***
 ***
 ## Installation
