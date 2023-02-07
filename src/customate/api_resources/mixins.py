@@ -172,9 +172,9 @@ class PathBuilder:
         if "validate_bank_owner" in self.params:
             params['validate_bank_owner'] = self.params["validate_bank_owner"]
         if "currency" in self.params:
-            params['currency'] = self.params["currency"]
+            params['currency[Currency]'] = self.params["currency"]
         if "country" in self.params:
-            params['country'] = self.params["country"]
+            params['country[string]'] = self.params["country"]
         if "funding_source_id" in self.params:
             params['funding_source_id'] = self.params["funding_source_id"]
         if "funding_source_type" in self.params:

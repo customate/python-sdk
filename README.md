@@ -203,6 +203,7 @@ print(wallet_response.status_code)
 ```
 ***
 ***
+
 ### Schedule Management
 
 >Note: Please see [Schedule Management API Documentation](https://customatepublicapi.docs.apiary.io/#reference/0/schedule-management)
@@ -462,6 +463,80 @@ print(funding_source_response.status_code)
 ***
 ***
 
+### Open Banking Mandates
+
+>Note: Please see [Open Banking Management API Documentation](https://customatepublicapi.docs.apiary.io/#reference/0/open-banking-mandates)
+
+[Get](https://customatepublicapi.docs.apiary.io/#reference/0/open-banking-mandates/get-open-banking-mandate-providers):
+```
+#Returns all open banking mandate providers
+open_banking_response = client.open_banking_mandate_providers.get()
+print(open_banking_response.status_code)
+```
+***
+
+[Create](https://customatepublicapi.docs.apiary.io/#reference/0/open-banking-mandates/create-open-banking-mandate):
+```
+data = {
+    "provider_id": "ob-natwest-vrp-sandbox",
+    "country": "GB",
+    "currency": "GBP",
+    "payer_name": "Mr A Payer",
+    "payer_email": "smith@customate.com",
+    "beneficiary_name": "Mrs A Receiver",
+    "maximum_individual_amount": 10000,
+    "maximum_payment_amount": 20000,
+    "maximum_payment_period": "daily",
+    "reference": "Tenancy agreement 1",
+    "redirect_url": "https://www.yoursite.com/mandates",
+    "valid_from_date": "2023-01-01",
+    "valid_to_date": "2024-12-31"
+}
+open_banking_response = client.open_banking_to_wallet_mandates.post(
+    profile_id=profile_id,
+    data=data
+)
+print(open_banking_response.status_code)
+open_banking_id = open_banking_response['json']["id"]
+```
+***
+
+[Get](https://customatepublicapi.docs.apiary.io/#reference/0/open-banking-mandates/list-open-banking-mandates):
+```
+#Returns all open banking mandates
+open_banking_response = client.open_banking_mandates.get(
+    profile_id=profile_id,
+)
+print(open_banking_response.status_code)
+
+#Returns all open banking with pagination
+open_banking_response = client.open_banking_mandates.get(
+    profile_id=profile_id,
+    params = {'page_size':25,'page_number':page_number}
+)
+print(open_banking_response.status_code)
+
+#Passing a open banking mandate ID will retrieve one record
+open_banking_response = client.open_banking_mandates.get(
+    profile_id=profile_id,
+    domain_id=open_banking_mandate_id
+)
+print(open_banking_response.status_code)
+```
+***
+
+[Deactivate](https://customatepublicapi.docs.apiary.io/#reference/0/open-banking-mandates/delete-open-banking-mandate)
+```
+open_banking_response = client.open_banking_mandates.delete(
+    profile_id=profile_id,
+    domain_id=open_banking_mandate_id
+)
+print(open_banking_response.status_code)
+```
+
+***
+***
+
 ### Payee Management
 
 >Note: Please see [Payee Management API Documentation](https://customatepublicapi.docs.apiary.io/#reference/0/payee-management)
@@ -697,6 +772,29 @@ payment_id = payment_response['json']["id"]
 ```
 ***
 
+
+[Create (variable) open banking to mandate payment](https://customatepublicapi.docs.apiary.io/#reference/0/payments/create-(variable)-open-banking-to-wallet-mandate-payment):
+```
+data = {
+    "amount": 10000,
+    "description": "Deposit for Flat 1",
+    "currency": "GBP",
+    "metadata": {
+      "sample_internal_id": "d2f148cf-901c-4fee-8792-21016da755a0"
+    },
+    "beneficiary_name": "Mrs A Receiver",
+    "mandate_id": "ebfd76ac-6fc4-4661-9719-ff7bb3cc0360"
+}
+
+payment_response = client.open_banking_to_wallet_mandate_payment.post(
+    profile_id=profile_id,
+    data=data
+)
+print(payment_response.status_code)
+payment_id = payment_response['json']["id"]
+```
+***
+
 [Create service payment](https://customatepublicapi.docs.apiary.io/#reference/0/payment-management/create-service-payment):
 ```
 data = {
@@ -738,15 +836,15 @@ print(payment_response.status_code)
 ```
 
 ***
-[Get open banking providers](https://customatepublicapi.docs.apiary.io/#reference/0/payment-management/get-open-banking-providers):
+[Get open banking providers (for single payment)](https://customatepublicapi.docs.apiary.io/#reference/0/payment-management/get-open-banking-providers):
 ```
 #Returns all banking providers
 payment_response = client.open_banking_provider.get()
 print(payment_response.status_code)
 
-#Returns all banking providers with pagination
+#Returns all banking providers for defined country and currency
 payment_response = client.open_banking_provider.get(
-    params = {'page_size':25,'page_number':page_number}
+    params = {'currency':'GBP','country':'UK'}
 )
 print(payment_response.status_code)
 
@@ -787,6 +885,23 @@ print(transaction_response.status_code)
 transaction_response = client.transaction.get(
     profile_id=profile_id,
     params = {'page_size':25,'page_number':page_number}
+)
+print(transaction_response.status_code)
+
+#Returns all transactions with pagination and filtering and sorting
+transaction_response = client.transaction.get(
+    profile_id=profile_id,
+    params = {
+        'page_size':10,
+        'page_number':1, 
+        "sort": "-completion_date",
+        "filters": {
+            "amount.lte": 750,
+            "creation_date.gte": "1564032580000",
+            "creation_date.lte": "1564032592299",
+            "completion_date.gte":"1564032580000",
+            "completion_date.lte":"1564032592299",
+        }}
 )
 print(transaction_response.status_code)
 
