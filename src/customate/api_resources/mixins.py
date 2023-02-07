@@ -92,10 +92,27 @@ class PathBuilder:
                     "path": f'{self.version}/open_banking_providers',
                     "name": None
                 },
+                "open_banking_to_wallet_mandate_payments": {
+                    "path": f'{self.version}/profiles',
+                    "name": "open_banking_to_wallet_mandate_payments"
+                },
                 "open_banking_to_wallet_payments": {
                     "path": f'{self.version}/profiles',
                     "name": "open_banking_to_wallet_payments"
                 },
+                "open_banking_mandate_providers": {
+                    "path": f'{self.version}/open_banking_mandate_providers',
+                    "name": None
+                },
+                "open_banking_to_wallet_mandates": {
+                    "path": f'{self.version}/profiles',
+                    "name": "open_banking_to_wallet_mandates"
+                },
+                "open_banking_mandates": {
+                    "path": f'{self.version}/profiles',
+                    "name": "open_banking_mandates"
+                },
+                
                 "service_payments": {
                     "path": f'{self.version}/profiles',
                     "name": "service_payments"
@@ -158,6 +175,23 @@ class PathBuilder:
             params['currency'] = self.params["currency"]
         if "country" in self.params:
             params['country'] = self.params["country"]
+        if "funding_source_id" in self.params:
+            params['funding_source_id'] = self.params["funding_source_id"]
+        if "funding_source_type" in self.params:
+            params['funding_source_type'] = self.params["funding_source_type"]
+        if "payee_id" in self.params:
+            params['payee_id'] = self.params["payee_id"]
+        if "payee_type" in self.params:
+            params['payee_type'] = self.params["payee_type"]
+        if "interval_start_date" in self.params:
+            params['interval_start_date'] = self.params["interval_start_date"]
+        if "interval_end_date" in self.params:
+            params['interval_end_date'] = self.params["interval_end_date"]
+        if "sort" in self.params:
+            params['sort'] = self.params["sort"]
+        if "filters" in self.params:
+            for key, value in self.params["filters"].items():
+                params[f'filter[{key}]'] = value
         if params:
             url = create_params(params=json.dumps(params), url=url)
 

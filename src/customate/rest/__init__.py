@@ -66,7 +66,11 @@ class Client(object):
         self._wallet_to_wallet_payment = None
         self._direct_debit_to_wallet_payment = None
         self._wallet_to_bank_account_payment = None
-        self._open_banking_providers = None
+        self._open_banking_to_wallet_mandate = None
+        self._open_banking_to_wallet_mandate_payment = None
+        self._open_banking_provider = None
+        self._open_banking_mandate_provider = None
+        self._open_banking_mandate = None
         self._open_banking_to_wallet_payment = None
         self._p2p_currency_exchange = None
         self._currency_exchange = None
@@ -77,7 +81,7 @@ class Client(object):
         self._payment = None
         self._transaction = None
         self._webhook = None
-        self._non_processing_dates = None
+        self._non_processing_date = None
 
 
     def request(self, method, base_url, domain, version, profile_id=None, domain_id=None, domain_action=None, params=None, data=None, headers=None, auth=None):
@@ -298,6 +302,36 @@ class Client(object):
         return self._wallet_to_bank_account_payment
 
     @property
+    def open_banking_mandate(self):
+        """
+        Access the Customate Open Banking Mandate API
+        """
+        if self._open_banking_mandate is None:
+            from customate.rest.open_banking_mandate import OpenBankingMandate
+            self._open_banking_mandate = OpenBankingMandate(self, self.base_url, 'open_banking_mandates', self.customate_version)
+        return self._open_banking_mandate
+
+    @property
+    def open_banking_to_wallet_mandate(self):
+        """
+        Access the Customate Open Banking To Wallet Mandate API
+        """
+        if self._open_banking_to_wallet_mandate is None:
+            from customate.rest.open_banking_to_wallet_mandate import OpenBankingToWalletMandate
+            self._open_banking_to_wallet_mandate = OpenBankingToWalletMandate(self, self.base_url, 'open_banking_to_wallet_mandates', self.customate_version)
+        return self._open_banking_to_wallet_mandate
+
+    @property
+    def open_banking_to_wallet_mandate_payment(self):
+        """
+        Access the Customate Open Banking Mandate Payment API
+        """
+        if self._open_banking_to_wallet_mandate_payment is None:
+            from customate.rest.open_banking_to_wallet_mandate_payment import OpenBankingToWalletMandatePayment
+            self._open_banking_to_wallet_mandate_payment = OpenBankingToWalletMandatePayment(self, self.base_url, 'open_banking_to_wallet_mandate_payments', self.customate_version)
+        return self._open_banking_to_wallet_mandate_payment
+
+    @property
     def open_banking_provider(self):
         """
         Access the Customate Open Banking Provider API
@@ -306,6 +340,16 @@ class Client(object):
             from customate.rest.open_banking_provider import OpenBankingProvider
             self._open_banking_provider = OpenBankingProvider(self, self.base_url, 'open_banking_providers', self.customate_version)
         return self._open_banking_provider
+
+    @property
+    def open_banking_mandate_provider(self):
+        """
+        Access the Customate Open Banking Mandate Provider API
+        """
+        if self._open_banking_mandate_provider is None:
+            from customate.rest.open_banking_mandate_provider import OpenBankingMandateProvider
+            self._open_banking_mandate_provider = OpenBankingMandateProvider(self, self.base_url, 'open_banking_mandate_providers', self.customate_version)
+        return self._open_banking_mandate_provider
 
     @property
     def open_banking_to_wallet_payment(self):
